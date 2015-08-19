@@ -1,6 +1,8 @@
 package main
-import "fmt"
+import (
+	"net/http"
+)
 
 func main() {
-	fmt.Println("教育アプリをはじめよう！")
+	http.ListenAndServe(":8080", nil)
 }
