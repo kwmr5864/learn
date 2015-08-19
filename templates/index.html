@@ -5,6 +5,30 @@
     <title>{{.Title}}</title>
 </head>
 <body>
-{{.Body}}
+<header>
+    <h1>{{.Word}}の検索結果：{{.Count}}件ヒットしました</h1>
+</header>
+<article>
+    <table>
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>単語</th>
+            <th>意味</th>
+            <th>レベル</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .Items}}
+        <tr>
+            <td>{{.ItemId}}</td>
+            <td>{{.Word}}</td>
+            <td>{{.Mean}}</td>
+            <td>{{.Level}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+</article>
 </body>
 </html>
