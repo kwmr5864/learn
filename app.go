@@ -15,6 +15,8 @@ type Item struct {
 
 type Page struct {
 	Title string
+	Word string
+	Count int
 	Items []Item
 }
 
@@ -39,6 +41,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 
 	page := Page{
 		Title:word,
+		Word:word,
+		Count:count,
 		Items: make([]Item, count),
 	}
 	index := 0
