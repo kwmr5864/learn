@@ -1,11 +1,20 @@
 package main
 import (
 	"net/http"
-	"fmt"
+	"html/template"
 )
 
+type Page struct {
+	Title string
+	Body string
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "こんにちは, %q", r.URL.Path[1:])
+	t, _ := template.ParseFiles("templates/index.html")
+	t.Execute(w, Page{
+		Title:r.URL.Path[1:],
+		Body:"こんにちは, " + r.URL.Path[1:],
+	})
 }
 
 func main() {
