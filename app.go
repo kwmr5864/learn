@@ -27,8 +27,29 @@ func checkErr(err error) {
 }
 
 func indexViewHandler(w http.ResponseWriter, r *http.Request) {
+	count := 10
+
+	db, err := sql.Open("sqlite3", "./ejdict.sqlite3")
+	checkErr(err)
+
+	rows, err := db.Query("SELECT item_id, word, mean, level FROM items ORDER BY random() LIMIT ?", count)
+	checkErr(err)
+
+	page := Page{
+		Items: make([]Item, count),
+	}
+	index := 0
+	for rows.Next() {
+		item := Item{}
+		err = rows.Scan(&item.ItemId, &item.Word, &item.Mean, &item.Level)
+		checkErr(err)
+		page.Items[index] = item
+		index++
+	}
+	db.Close()
+
 	t, _ := template.ParseFiles("templates/index.html")
-	t.Execute(w, nil)
+	t.Execute(w, page)
 }
 
 func searchViewHandler(w http.ResponseWriter, r *http.Request) {
