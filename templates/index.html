@@ -10,11 +10,15 @@
     <header>
         <h1>色んな単語を調べてみよう！<small>ランダムでリストが変わるよ</small></h1>
     </header>
-    <ul class="list-group">
+    <div class="list-group">
         {{range .Items}}
-        <li class="list-group-item"><a href="/search/{{.Word}}">{{.Word}}</a> : <small>{{.Mean}}</small></li>
+        <a href="/search/{{.Word}}" class="list-group-item">
+            <span class="list-group-item-heading"><span class="text-primary">{{.Word}}</span></span>
+            :
+            <small class="list-group-item-text">{{.Mean}}</small>
+        </a>
         {{end}}
-    </ul>
+    </div>
     <a class="btn btn-lg btn-primary" href="/">リロード</a>
 </div>
 </body>
