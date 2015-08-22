@@ -13,19 +13,15 @@
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th>No.</th>
             <th>単語</th>
             <th>意味</th>
-            <th>LV</th>
         </tr>
         </thead>
         <tbody>
         {{range .Items}}
         <tr>
-            <td>{{.ItemId}}</td>
             <td><a href="/word/{{.Word}}">{{.Word}}</a></td>
             <td>{{.Mean}}</td>
-            <td>{{.Level}}</td>
         </tr>
         {{end}}
         </tbody>
