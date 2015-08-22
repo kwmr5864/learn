@@ -1,0 +1,46 @@
+{{define "search_form"}}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" id="text_search_word" placeholder="単語">
+                <div class="btn input-group-addon" id="btn_search_word">検索する</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" id="text_search_mean" placeholder="意味">
+                <div class="btn input-group-addon" id="btn_search_mean">検索する</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function textSearch(tagName, searchType, e) {
+    var keyword = $(tagName).val();
+    if (e.which == 13 && keyword !== '') {
+        location.href = '/' + searchType + '/' + keyword;
+    }
+};
+$('#text_search_word').on('keypress', function(e) {
+    textSearch('#text_search_word', 'word', e);
+});
+$('#text_search_mean').on('keypress', function(e) {
+    textSearch('#text_search_mean', 'mean', e);
+});
+function btnSearch(tagName, searchType) {
+    var keyword = $(tagName).val();
+    if (keyword !== '') {
+        location.href = '/' + searchType + '/' + keyword;
+    }
+};
+$('#btn_search_word').on('click', function() {
+    btnSearch('#text_search_word', 'word');
+});
+$('#btn_search_mean').on('click', function() {
+    btnSearch('#text_search_mean', 'mean');
+});
+</script>
+{{end}}

@@ -2,24 +2,27 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>learn</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>色んな単語を調べてみよう！<small>ランダムでリストが変わるよ</small></h1>
+        <a class="btn btn-lg btn-primary pull-right" href="/">リロード</a>
+        <h1>色んな単語を調べてみよう！<br /><small>ランダムでリストが変わるよ</small></h1>
     </header>
+    {{template "search_form"}}
     <div class="list-group">
         {{range .Items}}
-        <a href="/search/{{.Word}}" class="list-group-item">
+        <a href="/word/{{.Word}}" class="list-group-item">
             <span class="list-group-item-heading"><span class="text-primary">{{.Word}}</span></span>
             :
             <small class="list-group-item-text">{{.Mean}}</small>
         </a>
         {{end}}
     </div>
-    <a class="btn btn-lg btn-primary" href="/">リロード</a>
 </div>
 </body>
 </html>
