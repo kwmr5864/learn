@@ -52,7 +52,7 @@ func indexViewHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, page)
 }
 
-func searchViewHandler(w http.ResponseWriter, r *http.Request) {
+func searchWordViewHandler(w http.ResponseWriter, r *http.Request) {
 	word := r.URL.Path[8:]
 
 	db, err := sql.Open("sqlite3", "./ejdict.sqlite3")
@@ -87,6 +87,6 @@ func searchViewHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", indexViewHandler)
-	http.HandleFunc("/search/", searchViewHandler)
+	http.HandleFunc("/word/", searchWordViewHandler)
 	http.ListenAndServe(":8080", nil)
 }
