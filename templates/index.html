@@ -10,7 +10,8 @@
 <body>
 <div class="container">
     <header>
-        <h1>色んな単語を調べてみよう！<small>ランダムでリストが変わるよ</small></h1>
+        <a class="btn btn-lg btn-primary pull-right" href="/">リロード</a>
+        <h1>色んな単語を調べてみよう！<br /><small>ランダムでリストが変わるよ</small></h1>
     </header>
     {{template "search_form"}}
     <div class="list-group">
@@ -22,7 +23,6 @@
         </a>
         {{end}}
     </div>
-    <a class="btn btn-lg btn-primary" href="/">リロード</a>
 </div>
 </body>
 </html>
