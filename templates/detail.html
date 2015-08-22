@@ -2,14 +2,17 @@
 <html lang="jp">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{{.Title}}</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
     <header>
         <h1>{{.Keyword}}の検索結果：{{.Count}}件ヒットしました</h1>
     </header>
+    {{template "search_form"}}
     <table class="table table-striped table-bordered">
         <thead>
         <tr>

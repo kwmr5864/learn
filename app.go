@@ -48,7 +48,10 @@ func indexViewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Close()
 
-	t, _ := template.ParseFiles("templates/index.html")
+	t, _ := template.ParseFiles(
+		"templates/index.html",
+		"templates/parts/search_form.html",
+	)
 	t.Execute(w, page)
 }
 
@@ -81,7 +84,10 @@ func searchWordViewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Close()
 
-	t, _ := template.ParseFiles("templates/detail.html")
+	t, _ := template.ParseFiles(
+		"templates/detail.html",
+		"templates/parts/search_form.html",
+	)
 	t.Execute(w, page)
 }
 
@@ -114,7 +120,10 @@ func searchMeanViewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Close()
 
-	t, _ := template.ParseFiles("templates/detail.html")
+	t, _ := template.ParseFiles(
+		"templates/detail.html",
+		"templates/parts/search_form.html",
+	)
 	t.Execute(w, page)
 }
 
