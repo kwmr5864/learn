@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <title>learn</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
     <header>
         <h1>色んな単語を調べてみよう！<small>ランダムでリストが変わるよ</small></h1>
     </header>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="text_search_word" placeholder="単語">
+                <span class="btn btn-default" id="btn_search_word">検索する</span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input type="text" class="form-control" id="text_search_mean" placeholder="意味">
+                <span class="btn btn-default" id="btn_search_mean">検索する</span>
+            </div>
+        </div>
+    </div>
     <div class="list-group">
         {{range .Items}}
         <a href="/word/{{.Word}}" class="list-group-item">
@@ -21,5 +36,31 @@
     </div>
     <a class="btn btn-lg btn-primary" href="/">リロード</a>
 </div>
+<script type="text/javascript">
+function textSearch(tagName, searchType, e) {
+    var keyword = $(tagName).val();
+    if (e.which == 13 && keyword !== '') {
+        location.href = '/' + searchType + '/' + keyword;
+    }
+};
+$('#text_search_word').on('keypress', function(e) {
+    textSearch('#text_search_word', 'word', e);
+});
+$('#text_search_mean').on('keypress', function(e) {
+    textSearch('#text_search_mean', 'mean', e);
+});
+function btnSearch(tagName, searchType) {
+    var keyword = $(tagName).val();
+    if (keyword !== '') {
+        location.href = '/' + searchType + '/' + keyword;
+    }
+};
+$('#btn_search_word').on('click', function() {
+    btnSearch('#text_search_word', 'word');
+});
+$('#btn_search_mean').on('click', function() {
+    btnSearch('#text_search_mean', 'mean');
+});
+</script>
 </body>
 </html>
