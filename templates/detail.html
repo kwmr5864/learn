@@ -43,9 +43,10 @@
             data: {
                 itemId: itemId
             }
-        }).done(function(data) {
-            alert(data.Message);
+        }).done(function() {
+            alert('登録しました');
         }).fail(function() {
+            alert('登録できませんでした');
         }).always(function() {
         });
     });

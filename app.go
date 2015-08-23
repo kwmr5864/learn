@@ -6,6 +6,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"encoding/json"
 	"fmt"
+	mgo "gopkg.in/mgo.v2"
+//	"gopkg.in/mgo.v2/bson"
 )
 
 type Item struct {
@@ -135,10 +137,17 @@ func searchMeanViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addWordApiHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := mgo.Dial("mongodb://localhost/kawamura")
+	defer session.Close()
+	db := session.DB("kawamura")
+
 	var response = Response{
 		Result:true,
 		Message:r.FormValue("itemId"),
 	}
+	col := db.C("items")
+	col.Insert(response)
+
 	var data, _ = json.Marshal(response)
 	fmt.Fprintf(w, string(data))
 }
