@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
+	"encoding/json"
+	"fmt"
 )
 
 type Item struct {
@@ -18,6 +20,10 @@ type Page struct {
 	Keyword string
 	Count int
 	Items []Item
+}
+
+type Response struct {
+	Result bool
 }
 
 func checkErr(err error) {
@@ -127,9 +133,16 @@ func searchMeanViewHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, page)
 }
 
+func addWordApiHandler(w http.ResponseWriter, r *http.Request) {
+	var response = Response{Result:true}
+	var data, _ = json.Marshal(response)
+	fmt.Fprintf(w, string(data))
+}
+
 func main() {
 	http.HandleFunc("/", indexViewHandler)
 	http.HandleFunc("/word/", searchWordViewHandler)
 	http.HandleFunc("/mean/", searchMeanViewHandler)
+	http.HandleFunc("/api/add", addWordApiHandler)
 	http.ListenAndServe(":8080", nil)
 }
