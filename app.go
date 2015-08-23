@@ -24,6 +24,7 @@ type Page struct {
 
 type Response struct {
 	Result bool
+	Message string
 }
 
 func checkErr(err error) {
@@ -134,7 +135,10 @@ func searchMeanViewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addWordApiHandler(w http.ResponseWriter, r *http.Request) {
-	var response = Response{Result:true}
+	var response = Response{
+		Result:true,
+		Message:r.FormValue("itemId"),
+	}
 	var data, _ = json.Marshal(response)
 	fmt.Fprintf(w, string(data))
 }
