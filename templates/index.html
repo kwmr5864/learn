@@ -10,7 +10,10 @@
 <body>
 <div class="container">
     <header>
-        <a class="btn btn-lg btn-primary pull-right" href="/">リロード</a>
+        <div class="btn-group pull-right">
+            <a class="btn btn-lg btn-primary" href="/mylist">マイリスト</a>
+            <a class="btn btn-lg btn-default" href="/">リロード</a>
+        </div>
         <h1>色んな単語を調べてみよう！<br /><small>ランダムでリストが変わるよ</small></h1>
     </header>
     {{template "search_form"}}

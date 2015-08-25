@@ -19,6 +19,7 @@
         <tr>
             <th>単語</th>
             <th>意味</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -26,10 +27,29 @@
         <tr>
             <td><a href="/word/{{.Word}}">{{.Word}}</a></td>
             <td>{{.Mean}}</td>
+            <td><span class="btn btn-xs btn-primary btn_add_word" id="r{{.ItemId}}">登録する</span></td>
         </tr>
         {{end}}
         </tbody>
     </table>
 </div>
+<script type="text/javascript">
+    $('.btn_add_word').on('click', function() {
+        var itemId = $(this).attr('id').replace(/r/g, '');
+        $.ajax({
+            url: '/api/add',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                itemId: itemId
+            }
+        }).done(function() {
+            alert('登録しました');
+        }).fail(function() {
+            alert('登録できませんでした');
+        }).always(function() {
+        });
+    });
+</script>
 </body>
 </html>
