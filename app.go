@@ -7,7 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 	mgo "gopkg.in/mgo.v2"
-//	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
+	"strconv"
 )
 
 type Item struct {
@@ -26,7 +27,7 @@ type Page struct {
 
 type Response struct {
 	Result bool
-	Message string
+	ItemId int
 }
 
 func checkErr(err error) {
@@ -136,19 +137,78 @@ func searchMeanViewHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, page)
 }
 
+func mylistViewHandler(w http.ResponseWriter, r *http.Request) {
+	item_ids, count := getAddedItemIds()
+
+	db, err := sql.Open("sqlite3", "./ejdict.sqlite3")
+	checkErr(err)
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT item_id, word, mean, level FROM items WHERE item_id IN (" + item_ids + ") ORDER BY item_id DESC")
+	checkErr(err)
+
+	page := Page{
+		Items: make([]Item, count),
+	}
+	index := 0
+
+	for rows.Next() {
+		item := Item{}
+		err = rows.Scan(&item.ItemId, &item.Word, &item.Mean, &item.Level)
+		checkErr(err)
+		page.Items[index] = item
+		index++
+	}
+
+	t, _ := template.ParseFiles(
+		"templates/mylist.html",
+	)
+	t.Execute(w, page)
+}
+
+func getAddedItemIds() (string, int) {
+	session, err := mgo.Dial("mongodb://localhost/kawamura")
+	checkErr(err)
+
+	defer session.Close()
+
+	db := session.DB("kawamura")
+	col := db.C("items")
+	rows := col.Find(bson.M{}).Iter()
+	count, err := col.Find(bson.M{}).Count()
+	checkErr(err)
+
+	bytes := make([]byte, 0, count * 11)
+	index := 0
+
+	response := Response{}
+	for rows.Next(&response) {
+		if index != 0 {
+			bytes = append(bytes, ","...)
+		}
+		bytes = append(bytes, strconv.Itoa(response.ItemId)...)
+		index++
+	}
+	return string(bytes), count
+}
+
 func addWordApiHandler(w http.ResponseWriter, r *http.Request) {
+	itemId, err := strconv.Atoi(r.FormValue("itemId"))
+	checkErr(err)
+
 	session, _ := mgo.Dial("mongodb://localhost/kawamura")
 	defer session.Close()
 	db := session.DB("kawamura")
 
-	var response = Response{
+	response := Response{
 		Result:true,
-		Message:r.FormValue("itemId"),
+		ItemId:itemId,
 	}
 	col := db.C("items")
 	col.Insert(response)
 
-	var data, _ = json.Marshal(response)
+	data, _ := json.Marshal(response)
 	fmt.Fprintf(w, string(data))
 }
 
@@ -156,6 +216,7 @@ func main() {
 	http.HandleFunc("/", indexViewHandler)
 	http.HandleFunc("/word/", searchWordViewHandler)
 	http.HandleFunc("/mean/", searchMeanViewHandler)
+	http.HandleFunc("/mylist", mylistViewHandler)
 	http.HandleFunc("/api/add", addWordApiHandler)
 	http.ListenAndServe(":8080", nil)
 }
